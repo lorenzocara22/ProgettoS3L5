@@ -1,0 +1,4 @@
+package it.epicode.biblioteca.util;
+
+public class JPAUtil {
+}

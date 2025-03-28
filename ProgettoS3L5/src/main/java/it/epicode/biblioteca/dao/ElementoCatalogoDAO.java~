@@ -1,0 +1,42 @@
+package it.epicode.biblioteca.dao;
+
+import it.epicode.biblioteca.model.ElementoCatalogo;
+import it.epicode.biblioteca.util.JPAUtil;
+import jakarta.persistence.EntityManager;
+
+public class ElementoCatalogoDAO {
+
+    public void save(ElementoCatalogo elemento) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            em.getTransaction().begin();
+            em.persist(elemento);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    public ElementoCatalogo findByIsbn(String isbn) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            return em.find(ElementoCatalogo.class, isbn);
+        } finally {
+            em.close();
+        }
+    }
+
+    public void delete(String isbn) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try {
+            ElementoCatalogo elemento = em.find(ElementoCatalogo.class, isbn);
+            if (elemento != null) {
+                em.getTransaction().begin();
+                em.remove(elemento);
+                em.getTransaction().commit();
+            }
+        } finally {
+            em.close();
+        }
+    }
+}
